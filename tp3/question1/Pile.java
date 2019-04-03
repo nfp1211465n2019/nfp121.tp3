@@ -16,7 +16,7 @@ public class Pile {
     private int ptr;
 
     /**
-     * � compl�ter
+     * à compléter
      * 
      */
     public Pile(int taille) {
@@ -30,16 +30,14 @@ public class Pile {
         this(TAILLE_PAR_DEFAUT);
     }
 
-    public void empiler(Object object) throws PilePleineException {
-        if (estPleine())
-            throw new PilePleineException();
-        this.zone[this.ptr] = object;
+    public void empiler(Object i) throws PilePleineException {
+        if (estPleine()) throw new PilePleineException();
+        this.zone[this.ptr] = i;
         this.ptr++;
     }
 
     public Object depiler() throws PileVideException {
-        if (estVide())
-            throw new PileVideException();
+        if (estVide()) throw new PileVideException();
         this.ptr--;
         return zone[ptr];
     }
@@ -55,7 +53,7 @@ public class Pile {
     public String toString() {
         StringBuffer sb = new StringBuffer("[");
         for (int i = ptr - 1; i >= 0; i--) {
-            sb.append((zone[i]==null)?"null": zone[i].toString());
+            sb.append(zone[i].toString());
             if (i > 0)
                 sb.append(", ");
         }
