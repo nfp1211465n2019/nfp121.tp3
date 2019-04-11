@@ -1,4 +1,4 @@
-package question2;
+ package question2;
 
 import question1.PilePleineException;
 import question1.PileVideException;
@@ -6,102 +6,90 @@ import question1.PileVideException;
 import java.util.Stack;
 
 public class Pile2 implements PileI {
-    /** par delegation : utilisation de la class Stack */
+    
     private Stack<Object> stk;
 
-    /** la capacite de la pile */
     private int capacite;
-
-    /**
-     * Creation d'une pile.
-     * 
-     * @param taille
-     *            la taille de la pile, la taille doit etre > 0
-     */
+    private int taille;
+    
     public Pile2(int taille) {
-        // prevoir le cas <=0
-        // a completer
+        if (taille < 0) this.taille = TAILLE_PAR_DEFAUT;
+      else this.taille = taille;
+      
+      this.capacite = 0;
+      this.stk = new Stack<>();
     }
 
-    // constructeur fourni
     public Pile2() {
-        this(0);
+        this.taille = TAILLE_PAR_DEFAUT;
+        this.capacite = 0;
+        this.stk = new Stack<>();
     }
 
+    @Override
     public void empiler(Object o) throws PilePleineException {
-        // a completer
+        if (estPleine()) throw new PilePleineException(); 
+        else {
+            stk.push(o);
+            this.capacite++;
+        }
     }
 
+    @Override
     public Object depiler() throws PileVideException {
-        // a completer
-        return null;
+        if (estVide()) throw new PileVideException();
+        this.capacite--;
+        return stk.pop(); 
     }
 
+    @Override
     public Object sommet() throws PileVideException {
-        // a completer
-        return null;
+        return this.stk.peek();
     }
 
-    /**
-     * Effectue un test de l'etat de la pile.
-     * 
-     * @return vrai si la pile est vide, faux autrement
-     */
+    @Override
     public boolean estVide() {
-        // a completer
-        return false;
+        return this.stk.empty(); //Ou bien: return this.capacite == 0; 
     }
 
-    /**
-     * Effectue un test de l'etat de la pile.
-     * 
-     * @return vrai si la pile est pleine, faux autrement
-     */
+    @Override
     public boolean estPleine() {
-        // a completer
-        return false;
+        return this.capacite == this.taille; 
     }
 
-    /**
-     * Retourne une representation en String d'une pile, contenant la
-     * representation en String de chaque element.
-     * 
-     * @return une representation en String d'une pile
-     */
+    @Override
     public String toString() {
-        String s = "[";
-        // a completer
-        return s + "]";
+        Stack<Object> temp = new Stack<>();
+        StringBuffer sb = new StringBuffer("["); 
+        int count = 0;
+        while (!this.estVide()) { 
+            if (count > 0) sb.append(", "); 
+            Object obj = this.stk.pop();
+            temp.push(obj);
+            sb.append(obj.toString()); 
+        } 
+        sb.append("]"); 
+        this.stk = temp;
+        return sb.toString(); 
     }
 
+    @Override
     public boolean equals(Object o) {
-        // a completer
+        if(this.toString().equals(((Pile2)o).toString())) return true;
         return false;
     }
 
-    // fonction fournie
+    @Override
     public int hashCode() {
         return toString().hashCode();
     }
 
-    /**
-     * Retourne le nombre d'element d'une pile.
-     * 
-     * @return le nombre d'element
-     */
-    public int taille() {
-        // a completer
-        return 0;
+     public int taille() {
+        return this.taille;
     }
 
-    /**
-     * Retourne la capacite de cette pile.
-     * 
-     * @return le nombre d'element
-     */
     public int capacite() {
-        // a completer
-        return 0;
+        return this.capacite;
     }
 
 } // Pile2.java
