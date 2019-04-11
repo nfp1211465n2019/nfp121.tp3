@@ -6,69 +6,88 @@ import question1.PileVideException;
 /**
  * A remplacer en partie par votre classe Pile de la question 1.
  * 
- * @author (votre nom)
+ * @author amine amine
  * @version (un numéro de version ou une date)
  */
 public class Pile implements PileI {
-
+    
     private Object[] zone;
     private int ptr;
+    private int taille;
 
     public Pile(int taille) {
-        // traiter le cas <=0
-        // a completer
+        if (taille < 0) this.taille = TAILLE_PAR_DEFAUT;
+        else this.taille = taille;
+    
+        this.zone = new Object[this.taille]; 
+        this.ptr = 0; 
     }
 
     public Pile() {
-        this(0);
+        this(TAILLE_PAR_DEFAUT);
     }
 
+    @Override
     public void empiler(Object o) throws PilePleineException {
-        // a completer
+        if (estPleine()) throw new PilePleineException(); 
+        this.zone[this.ptr] = o; 
+        this.ptr++; 
     }
 
+    @Override
     public Object depiler() throws PileVideException {
-        // a completer
-        return null;
+        if (estVide()) throw new PileVideException(); 
+        this.ptr--; 
+        return zone[ptr].toString(); 
     }
 
+    @Override
     public Object sommet() throws PileVideException {
-        // a completer
-        return null;
+        if(this.estVide()) return null;
+        return zone[ptr-1];
     }
 
+    @Override
     public int capacite() {
-        // a completer
-        return -1;
+        if(this.estVide()) return 0;
+        return ptr-1;
     }
 
+    @Override
     public int taille() {
-        // a completer
-        return -1;
+        return this.taille;
     }
 
+    @Override
     public boolean estVide() {
-        // a completer
-        return false;
+        return ptr == 0; 
     }
 
+    @Override
     public boolean estPleine() {
-        // a completer
-        return false;
+        return ptr == zone.length; 
     }
 
+    @Override
     public boolean equals(Object o) {
-        // a completer
+        if(this.toString().equals(((Pile)o).toString())) return true;
         return false;
     }
 
-    // fonction fournie
+    @Override
     public int hashCode() {
         return toString().hashCode();
     }
 
+    @Override
     public String toString() {
-        // a completer
-        return null;
+        StringBuffer sb = new StringBuffer("["); 
+        for (int i = ptr - 1; i >= 0; i--) { 
+            sb.append(zone[i].toString()); 
+            if (i > 0) 
+            sb.append(", "); 
+        } 
+        sb.append("]"); 
+        return sb.toString();
     }
 }
